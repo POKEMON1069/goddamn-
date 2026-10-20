@@ -65,14 +65,15 @@
   --r-md: 6px;
   --r-lg: 26px;
 
-  /* — spacing: 7px base (14 / 35 / 98 / 126 / 168) —————————— */
+  /* — spacing: 7px base — the detected scale is exactly
+       14 / 35 / 98 / 126 / 168 = 2 / 5 / 14 / 18 / 24 units ————— */
   --u: 7px;
-  --s-1: 14px;
-  --s-2: 35px;
-  --s-3: 98px;
-  --s-4: 126px;
-  --s-5: 168px;
-  --section: clamp(64px, 9vw, 126px);
+  --s-1: calc(var(--u) * 2);
+  --s-2: calc(var(--u) * 5);
+  --s-3: calc(var(--u) * 14);
+  --s-4: calc(var(--u) * 18);
+  --s-5: calc(var(--u) * 24);
+  --section: clamp(64px, 9vw, var(--s-4));
 
   /* — type ramp (source ratio, fluid) ——————————————————————— */
   --sans: "Archivo Variable", "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -449,6 +450,7 @@ a { color: inherit; text-decoration: none; }
   position: relative;
   height: clamp(260px, 46vh, 460px);
   overflow: hidden;
+  border-radius: var(--r-sm);
   background: var(--paper);
   border-bottom: 1px solid var(--line);
 }
@@ -474,7 +476,7 @@ a { color: inherit; text-decoration: none; }
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
   gap: var(--s-2);
-  padding-block: var(--s-3) var(--section);
+  padding-block: var(--s-3) var(--s-5);
   align-items: start;
 }
 .hero__h1 {

@@ -402,7 +402,7 @@
 
     var stage = doc.getElementById("wave");
     if (stage && window.PixelWave) {
-      wave = window.PixelWave.mount(stage, { cell: 14, seed: 0xa4c1, speed: 0.55 });
+      wave = window.PixelWave.mount(stage, { seed: 0xa4c1, speed: 0.55 });
     }
 
     initMarquees();

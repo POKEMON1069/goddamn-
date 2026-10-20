@@ -135,11 +135,21 @@
     ctx.globalAlpha = 1;
   }
 
+  /* — read the --cell token off the cascade (fallback: 14px) ——————————— */
+  function readCell(el) {
+    var v = 0;
+    if (global.getComputedStyle) {
+      v = parseFloat(global.getComputedStyle(el).getPropertyValue("--cell"));
+    }
+    return v > 4 && v < 64 ? v : 14;
+  }
+
   /* — mount an animated wave on a canvas ——————————————————————————————— */
   function mount(canvas, opts) {
     opts = opts || {};
     var ctx = canvas.getContext("2d", { alpha: false });
-    var cellCss = opts.cell || 14;
+    // Grid size comes from the design system's --cell token when present.
+    var cellCss = opts.cell || readCell(canvas);
     var seed = opts.seed || 0xa4c1;
     var speed = opts.speed || 1;
     var reduced = global.matchMedia
