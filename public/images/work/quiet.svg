@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+    <defs>
+      <style>
+        .t { fill: #F4F6F8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .k { fill: #FF2D55; font-weight: 800; letter-spacing: 0.2em; }
+        .m { fill: #8A939D; font-size: 24px; }
+      </style>
+    </defs>
+    <rect width="1200" height="800" fill="#0B0C0D" />
+    <rect x="24" y="24" width="1152" height="752" fill="none" stroke="#1A1E24" stroke-width="2" />
+    <rect x="24" y="24" width="60" height="60" fill="#FF2D55" />
+    <text x="54" y="52" class="t k" font-size="22" text-anchor="middle" dy="0.35em">06</text>
+    <text x="150" y="340" class="t" font-size="56" font-weight="800" letter-spacing="-0.04em">Quiet</text>
+    <text x="150" y="410" class="t k" font-size="20" letter-spacing="0.2em">PRINT + DIGITAL</text>
+    <text x="150" y="700" class="m" font-size="20" style="font-style:italic">Placeholder image — replace with real project photography.</text>
+    <text x="1050" y="700" class="m" font-size="20" text-anchor="end" style="font-style:italic">GODDAMN- · contact sheet</text>
+  </svg>

@@ -1,0 +1,6 @@
+# GODDAMN- — contact-sheet portfolio
+# Replace the URL below with your production domain before shipping.
+User-agent: *
+Allow: /
+
+Sitemap: https://example.com/sitemap.xml

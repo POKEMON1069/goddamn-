@@ -1,0 +1,554 @@
+/*
+ * DESIGN SYSTEM — "Proof" portfolio
+ * Concept: a designer's contact sheet / light table. Work is presented as
+ * frames on a film strip that rack into focus as you scroll.
+ *
+ * Tokens are written as CSS custom properties so every visual carries from
+ * one source. Palette is concept-driven: near-black ground, pure white ink,
+ * muted grey for meta, and a single signal accent (the "goddamn" exclamation).
+ * Pure #000 / #fff are used deliberately — the contact sheet demands it.
+ */
+
+:root {
+  /* --- Palette (by role) --- */
+  --color-ground: #0B0C0D;   /* page ground — near-black, never pure unless curtain */
+  --color-ink: #F4F6F8;      /* primary text on ground */
+  --color-muted: #8A939D;    /* meta, captions, secondary labels */
+  --color-line: #1A1E24;     /* borders, dividers, hairlines */
+  --color-accent: #FF2D55;   /* signal accent — the exclamation */
+  --color-accent-ink: #000000; /* text on top of accent */
+  --color-curtain: #000000;  /* loader / transition curtain — pure black */
+
+  /* semantic aliases */
+  --color-surface: #0B0C0D;
+  --color-text: var(--color-ink);
+  --color-text-soft: var(--color-muted);
+  --color-border: var(--color-line);
+
+  /* --- Type --- */
+  --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-text: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* --- Motion --- */
+  --ease-expo: cubic-bezier(0.19, 1, 0.22, 1);   /* big things — slow, settled */
+  --ease-quart: cubic-bezier(0.165, 0.84, 0.44, 1); /* standard */
+  --ease-sine: cubic-bezier(0.39, 0.575, 0.565, 1); /* gentle */
+  --dur-fast: 0.45s;
+  --dur: 0.9s;
+  --dur-slow: 1.4s;
+  --stagger: 60ms;
+
+  /* --- Grid --- */
+  --grid-gutter: 2.5vw;
+  --grid-inner: 1320px;
+  --section-pad: 9vh;
+  --radius: 2px; /* one radius rule: hairline, almost square */
+
+  /* --- z-index --- */
+  --z-curtain: 100;
+  --z-nav: 60;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* length animations handled by GSAP; keep CSS off layout props */
+}
+
+body {
+  margin: 0;
+  background: var(--color-ground);
+  color: var(--color-text);
+  font-family: var(--font-text);
+  font-size: 17px;
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reduced motion: strip all motion, keep content fully visible */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01s !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Skip link — first focus stop */
+.skip-link {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translatey(-100%);
+  padding: 10px 16px;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-family: var(--font-text);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  z-index: 200;
+  transition: transform 0.2s;
+}
+.skip-link:focus {
+  transform: translatey(0);
+}
+
+/* Visible focus styles for every interactive element */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* --- Typography scale (fluid) --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+}
+
+/* Display tracking: negative, set per size */
+h1 {
+  font-size: clamp(3rem, 8vw, 5.6rem);
+  letter-spacing: -0.05em;
+}
+h2 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  letter-spacing: -0.04em;
+}
+h3 {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  letter-spacing: -0.03em;
+}
+h4 {
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin: 0 0 1.2em 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Inline links in body keep an underline at rest */
+.content a {
+  border-bottom: 1px solid var(--color-line);
+  transition: border-color 0.2s;
+}
+.content a:hover {
+  border-bottom-color: var(--color-accent);
+}
+
+.section {
+  padding: var(--section-pad) var(--grid-gutter);
+  position: relative;
+}
+.section-inner {
+  max-width: var(--grid-inner);
+  margin: 0 auto;
+}
+
+/* Reveal state — JS removes these classes to animate */
+.reveal {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- Hero --- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Background plane — slow idle drift handled by JS */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(60% 60% at 50% 0%, #14181c 0%, var(--color-ground) 60%);
+  opacity: 0.9;
+}
+
+.hero-wrap {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10vh var(--grid-gutter) 0;
+  flex: 1;
+}
+
+.hero-content {
+  max-width: 720px;
+  text-align: left;
+  z-index: 2;
+}
+
+.hero-kicker {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin: 0 0 14px 0;
+  display: block;
+}
+
+.hero-name {
+  margin: 0 0 14px 0;
+}
+
+.hero-role {
+  font-size: 1.1rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+  max-width: 42ch;
+  margin: 0 0 30px 0;
+}
+
+.hero-cta {
+  margin: 0;
+}
+
+/* Foreground plane — the signature film strip */
+.hero-film {
+  position: relative;
+  z-index: 10;
+  border-top: 1px solid var(--color-line);
+  background: var(--color-ground);
+}
+
+.film-hint {
+  margin: 0;
+  padding: 26px var(--grid-gutter) 40px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-align: center;
+}
+
+.film-plate {
+  width: 100%;
+  height: 100%;
+  background: var(--color-curtain);
+  position: absolute;
+  inset: 0;
+}
+
+/* Scrolled nav gets a hairline bottom so it separates from the hero */
+.nav--scrolled {
+  border-bottom: 1px solid var(--color-line);
+  background: rgba(11, 12, 13, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+/* --- Navigation --- */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 24px var(--grid-gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: var(--z-nav);
+  /* transparent by default; scrim on hero handled by JS */
+}
+.nav .brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.nav .brand b {
+  color: var(--color-accent);
+}
+.nav-list {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+.nav-list a {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition: color 0.2s;
+}
+.nav-list a:hover {
+  color: var(--color-ink);
+}
+.nav-list a[aria-current="page"] {
+  color: var(--color-accent);
+}
+
+/* --- Buttons --- */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 28px;
+  border: 1px solid var(--color-line);
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.button:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+.button.accent {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-accent-ink);
+}
+.button.accent:hover {
+  background: var(--color-accent-ink);
+  border-color: var(--color-accent-ink);
+}
+
+/* --- Film strip (signature moment) --- */
+.film {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-curtain);
+}
+.film-track {
+  display: flex;
+  gap: 14px;
+  padding: 60px 0;
+  will-change: transform;
+}
+.film-frame {
+  flex: 0 0 auto;
+  width: 340px;
+  aspect-ratio: 1;
+  background: var(--color-ground);
+  border: 6px solid var(--color-curtain);
+  position: relative;
+  overflow: hidden;
+  opacity: 0.55;
+  transition: transform 0.2s, opacity 0.2s, border-color 0.2s;
+  filter: grayscale(0.6) contrast(0.9);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.film-frame .badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--color-accent);
+  background: var(--color-curtain);
+  padding: 4px 10px;
+  border-radius: var(--radius);
+  z-index: 3;
+}
+.film-frame.current {
+  opacity: 1;
+  filter: none;
+  transform: scale(1.12);
+  border-color: var(--color-accent);
+  z-index: 5;
+}
+.film-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.film-frame:not(.current):hover {
+  opacity: 1;
+  transform: scale(1.04);
+  border-color: var(--color-line);
+}
+
+/* --- Cards --- */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-line);
+  background: transparent;
+  padding: 0;
+  border-radius: var(--radius);
+  transition: border-color 0.2s, transform 0.3s var(--ease-quart);
+}
+.card:hover {
+  border-color: var(--color-accent);
+  transform: translatey(-4px);
+}
+.card-media {
+  position: relative;
+  padding-top: 100%;
+  overflow: hidden;
+  background: var(--color-curtain);
+}
+.card-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s var(--ease-quart);
+}
+.card:hover .card-media img {
+  transform: scale(1.06);
+}
+.card-body {
+  padding: 20px 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.card-kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+.card h3 {
+  font-size: 1.15rem;
+  line-height: 1.15;
+}
+.card p {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-muted);
+  margin-bottom: 0;
+}
+
+/* --- Case study hero --- */
+.case-hero {
+  position: relative;
+  padding-top: 55vh;
+  background: var(--color-ground);
+}
+.case-hero .badge {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.case-hero h1 {
+  max-width: 60ch;
+}
+
+/* --- Footer --- */
+.footer {
+  border-top: 1px solid var(--color-line);
+  padding: 60px var(--grid-gutter) 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  font-size: 13px;
+  color: var(--color-muted);
+}
+.footer-colophon {
+  max-width: 42ch;
+  line-height: 1.6;
+}
+.footer-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  transition: color 0.2s;
+}
+.footer-links a:hover {
+  color: var(--color-accent);
+}
+
+/* --- 404 --- */
+.not-found {
+  text-align: center;
+  padding: 20vh var(--grid-gutter) 20vh;
+}
+.not-found h1 {
+  font-size: clamp(4rem, 15vw, 10rem);
+  letter-spacing: -0.08em;
+}
+
+/* Responsive: mobile composition */
+@media (max-width: 640px) {
+  .section {
+    padding: 7vh 16px;
+  }
+  h1 { font-size: clamp(2.2rem, 10vw, 3.6rem); }
+  h2 { font-size: clamp(1.6rem, 7vw, 2.6rem); }
+  .nav { padding: 18px 16px; }
+  .nav-list { gap: 24px; font-size: 12px; }
+  .work-grid { grid-template-columns: 1fr; }
+  .film-track { padding: 40px 0; gap: 10px; }
+  .film-frame { width: 220px; }
+  .footer { flex-direction: column; gap: 24px; align-items: flex-start; }
+  .footer-links { gap: 18px; }
+  .case-hero { padding-top: 35vh; }
+}
+
+/* Reduced motion — remove hover transforms that rely on pointer */
+@media (prefers-reduced-motion: reduce) {
+  .card:hover { transform: none; }
+  .card:hover .card-media img { transform: none; }
+  .film-frame:not(.current):hover { transform: none; }
+}
