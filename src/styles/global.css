@@ -982,7 +982,8 @@ section {
     margin-bottom: 1.5rem;
   }
   .hero__figure {
-    margin-top: 0;
+    /* Never let the CTAs sit flush against the sheet on a phone. */
+    margin-top: 1.75rem;
     order: 2;
   }
   .hero__media {
