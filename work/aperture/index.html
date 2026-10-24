@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- @include partials/js-flag.html -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aperture — an optical calibration interface — Qintara</title>
+    <meta
+      name="description"
+      content="Case study: Aperture, a calibration interface for optical metrology where one circular control maps to the aperture being measured. A written demonstration by Qintara."
+    />
+    <meta name="theme-color" content="#f2ece1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="{{url}}/work/aperture/" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Qintara" />
+    <meta property="og:title" content="Aperture — an optical calibration interface" />
+    <meta property="og:description" content="Instrument over dashboard: one circular control, one parameter in focus, ink on paper in a dim lab." />
+    <meta property="og:image" content="{{url}}/og/aperture.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href="/src/assets/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- @include partials/site-header.html -->
+    <!-- @include partials/site-menu.html -->
+
+    <main id="main">
+      <article>
+        <header class="case-hero">
+          <div class="shell">
+            <div class="case-hero__inner">
+              <div class="case-hero__copy">
+                <p class="eyebrow">Case 01 — Interface system</p>
+                <h1 class="case-hero__title" data-reveal>Aperture</h1>
+                <p class="lead" data-reveal style="--reveal-delay: 100">
+                  A calibration interface for an optical metrology team. The brief was
+                  not "build a dashboard" — it was "let an operator feel where the
+                  lens is" before reading a number.
+                </p>
+                <p data-reveal style="--reveal-delay: 160">
+                  <span class="demo-marker">Demonstration case study — fictional client</span>
+                </p>
+              </div>
+
+              <div class="case-hero__facts">
+                <dl class="facts">
+                  <div class="facts__row"><dt>Client</dt><dd>Fictional brief, written for this build</dd></div>
+                  <div class="facts__row"><dt>Sector</dt><dd>Optical metrology</dd></div>
+                  <div class="facts__row"><dt>Scope</dt><dd>Research, interaction design, front-end</dd></div>
+                  <div class="facts__row"><dt>Team</dt><dd>One designer, one engineer</dd></div>
+                  <div class="facts__row"><dt>Modelled window</dt><dd>10 weeks</dd></div>
+                </dl>
+              </div>
+            </div>
+
+            <figure class="case-hero__plate case-figure" data-reveal>
+              <div class="plate__frame" style="--plate-ratio: 21 / 9">
+                <img
+                  class="plate__img"
+                  src="/src/assets/plates/aperture-1264.webp"
+                  alt="A machined aluminium ring standing on warm bone paper, casting a long vermilion shadow."
+                  width="1264"
+                  height="848"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              </div>
+              <figcaption class="mono" style="color: var(--ink-mute)">
+                Plate 01 — Aperture study. Photograph produced for this build.
+              </figcaption>
+            </figure>
+          </div>
+        </header>
+
+        <div class="shell">
+          <section class="module" aria-labelledby="ap-context">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">01</span>
+              <h2 class="mono" id="ap-context">Context</h2>
+            </div>
+            <div class="module__body">
+              <p>
+                Two operators at a bench, aligning lens assemblies against a reference.
+                The existing tool was a numeric readout paired with a spreadsheet
+                export: technically complete, perceptually empty. To know whether a
+                mount was seated, an operator had to read three fields, remember the
+                tolerance, and compare — in a room kept deliberately dim.
+              </p>
+              <p>
+                The team had already diagnosed the symptom themselves: <strong>new
+                operators re-checked the same value four or five times</strong>, not
+                because the number changed, but because nothing in the interface
+                confirmed their action had landed.
+              </p>
+            </div>
+            <div class="module__aside">
+              <p class="mono">Constraints</p>
+              <p>Gloves. Low light. Keyboard required. No new hardware.</p>
+            </div>
+          </section>
+
+          <section class="module" aria-labelledby="ap-constraint">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">02</span>
+              <h2 class="mono" id="ap-constraint">Constraint</h2>
+            </div>
+            <div class="module__body">
+              <h3>The real limits</h3>
+              <ul>
+                <li><strong>Input.</strong> Operators wore nitrile gloves; sliders with 2px thumbs were unusable in practice.</li>
+                <li><strong>Light.</strong> The bench room was dim to protect samples, so a bright UI raised glare rather than reducing it.</li>
+                <li><strong>Time.</strong> A calibration cycle could not grow; any interaction added had to replace an existing one.</li>
+                <li><strong>Proof.</strong> The team could not change the measurement hardware, so the interface had to carry the improvement alone.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="module" aria-labelledby="ap-decisions">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">03</span>
+              <h2 class="mono" id="ap-decisions">Decisions</h2>
+            </div>
+            <div class="module__body">
+              <p>
+                Three choices shaped the build. Each one has a cost, and the cost is
+                written next to it — a portfolio that only shows the upside is a
+                brochure, not a case study.
+              </p>
+
+              <div class="decisions">
+                <div class="decision">
+                  <p class="decision__question">Instrument, not dashboard.</p>
+                  <p class="decision__answer">
+                    A single circular control replaced six stacked sliders, mapping
+                    directly to the physical aperture. <strong>Trade-off:</strong>
+                    you cannot compare six values at once; you get one precise
+                    gesture instead.
+                  </p>
+                </div>
+                <div class="decision">
+                  <p class="decision__question">One parameter in focus.</p>
+                  <p class="decision__answer">
+                    Frequency and aperture are edited one at a time, with the other
+                    held in a persistent readout. <strong>Trade-off:</strong> slower
+                    for experts until shortcuts are learned, so keyboard stepping was
+                    designed at the same time as the pointer interaction.
+                  </p>
+                </div>
+                <div class="decision">
+                  <p class="decision__question">Ink on paper, not control-room black.</p>
+                  <p class="decision__answer">
+                    Warm paper with a single vermilion state colour, inverted only
+                    inside the measurement plate. <strong>Trade-off:</strong> less
+                    "technical" in a screenshot; measurably less glare on a dim bench.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="module" aria-labelledby="ap-craft">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">04</span>
+              <h2 class="mono" id="ap-craft">Craft</h2>
+            </div>
+            <div class="module__body">
+              <p>
+                The component below is the actual build, not a render. It runs on
+                canvas at device pixel ratio capped at 2, pauses when it leaves the
+                viewport, and draws a single static frame when the visitor prefers
+                reduced motion. Every value is also reachable from the sliders and
+                the keyboard, so the plate is a demonstration rather than a gate.
+              </p>
+
+              <div class="instrument" data-instrument style="margin-block-start: var(--space-6)">
+                <div class="instrument__head">
+                  <span class="instrument__title">Aperture — calibration plate</span>
+                  <output class="instrument__readout" data-instrument-readout aria-hidden="true">f 07 · a .62</output>
+                </div>
+                <div class="instrument__stage" data-instrument-stage>
+                  <canvas aria-hidden="true"></canvas>
+                  <p class="instrument__fallback" data-instrument-fallback hidden>
+                    This live component needs canvas support. The written study above
+                    describes the behaviour it demonstrates.
+                  </p>
+                </div>
+                <div class="instrument__controls">
+                  <div class="control">
+                    <div class="control__row"><span class="control__label" id="ap-mode-label">Model</span></div>
+                    <div class="segmented" role="group" aria-labelledby="ap-mode-label">
+                      <button type="button" data-mode="rings" aria-pressed="true">Rings</button>
+                      <button type="button" data-mode="trace" aria-pressed="false">Trace</button>
+                    </div>
+                  </div>
+                  <div class="control">
+                    <div class="control__row">
+                      <label class="control__label" for="ap-frequency">Frequency</label>
+                      <span class="control__value" data-value="frequency">07</span>
+                    </div>
+                    <input class="range" type="range" id="ap-frequency" data-param="frequency" min="2" max="14" step="1" value="7" />
+                  </div>
+                  <div class="control">
+                    <div class="control__row">
+                      <label class="control__label" for="ap-aperture">Aperture</label>
+                      <span class="control__value" data-value="aperture">.62</span>
+                    </div>
+                    <input class="range" type="range" id="ap-aperture" data-param="aperture" min="10" max="95" step="1" value="62" />
+                  </div>
+                </div>
+              </div>
+              <p class="mono" style="color: var(--ink-mute); margin-block-start: var(--space-3)">
+                Live component — the same module used in the home page instrument.
+              </p>
+
+              <h3>Accessibility and performance notes</h3>
+              <ul>
+                <li>Pointer targets are 44 × 44 CSS pixels minimum, sized for gloved hands.</li>
+                <li>Range inputs are native, labelled, keyboard-steppable, and expose <code>aria-valuetext</code>.</li>
+                <li>The canvas is decorative; every value it displays is available as text.</li>
+                <li>One animation frame loop, cancelled off-screen and on tab hide.</li>
+              </ul>
+            </div>
+          </section>
+        </div>
+
+        <section class="section section--ink" aria-labelledby="ap-signals">
+          <div class="shell">
+            <div class="section-head">
+              <div class="section-head__label">
+                <p class="eyebrow">05 — Signals</p>
+              </div>
+              <div class="section-head__body">
+                <h2 id="ap-signals">What we would measure, instead of inventing a number.</h2>
+                <p>
+                  Because this brief is written rather than delivered, we claim no
+                  results. These are the signals the work would be judged by — chosen
+                  because they can be observed at the bench, not because they look
+                  good in a deck.
+                </p>
+              </div>
+            </div>
+
+            <ul class="signals" data-reveal>
+              <li class="signal">
+                <span class="signal__num mono">S1</span>
+                <div>
+                  <h3>Repeat checks per calibration</h3>
+                  <p>The original symptom, measured directly: does the operator still re-read the same field?</p>
+                </div>
+              </li>
+              <li class="signal">
+                <span class="signal__num mono">S2</span>
+                <div>
+                  <h3>Time to first correct seating</h3>
+                  <p>Observed on a new operator's first three cycles, not averaged across the team.</p>
+                </div>
+              </li>
+              <li class="signal">
+                <span class="signal__num mono">S3</span>
+                <div>
+                  <h3>Errors on the three routine adjustments</h3>
+                  <p>Counted per shift, because a beautiful interface that adds errors has failed.</p>
+                </div>
+              </li>
+              <li class="signal">
+                <span class="signal__num mono">S4</span>
+                <div>
+                  <h3>The words operators use</h3>
+                  <p>If they start saying "seat it" instead of "set the third field", the metaphor transferred.</p>
+                </div>
+              </li>
+            </ul>
+
+            <figure class="pullquote" data-reveal>
+              <blockquote>
+                An instrument tells you what it is doing while you are doing it.
+                A dashboard tells you what happened after you stopped.
+              </blockquote>
+              <figcaption class="mono">Design principle recorded during week two of the modelled brief</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <div class="shell">
+          <nav class="next-project" aria-label="Next case study">
+            <a class="next-project__link" href="/work/longhand/">
+              <span class="next-project__label mono">Next case — 02</span>
+              <span class="next-project__name">Longhand</span>
+              <span class="next-project__arrow" aria-hidden="true">→</span>
+            </a>
+          </nav>
+        </div>
+      </article>
+    </main>
+
+    <!-- @include partials/site-footer.html -->
+    <!-- @include partials/work-preview.html -->
+  </body>
+</html>

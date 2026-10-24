@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- @include partials/js-flag.html -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Not found — Qintara</title>
+    <meta name="description" content="That page does not exist. The index is a better place to start." />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#f2ece1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- @include partials/site-header.html -->
+    <!-- @include partials/site-menu.html -->
+
+    <main id="main">
+      <div class="shell">
+        <div class="notfound">
+          <p class="eyebrow" style="justify-content: center">Error 404</p>
+          <h1 style="font-size: var(--text-h1); font-variation-settings: var(--variation-display)">
+            This page drew itself<br />out of existence.
+          </h1>
+          <p class="lead" style="margin-inline: auto">
+            The address is wrong, or the page has moved. The work index is a better
+            place to start.
+          </p>
+          <p style="display: flex; gap: var(--space-3); justify-content: center; flex-wrap: wrap">
+            <a class="btn" href="/work/">See the work <span class="btn__arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn--ghost" href="/">Back home</a>
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <!-- @include partials/site-footer.html -->
+  </body>
+</html>

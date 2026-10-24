@@ -1,0 +1,514 @@
+/* ==========================================================================
+   LAYOUT — shell, 12-column grid, section rhythm, page structures
+   ========================================================================== */
+
+.shell {
+  width: 100%;
+  max-width: var(--shell-max);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+.shell--wide {
+  max-width: none;
+}
+
+/* 12-column editorial grid. Collapses to 6 on tablet, 1 on phone. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-pad);
+  position: relative;
+}
+
+.section--tight {
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.section--ruled {
+  border-top: var(--hairline);
+}
+
+.section--ink {
+  background: var(--surface-ink);
+  color: var(--on-ink);
+}
+
+/* Section header: mono label in the margin, statement in the field. */
+.section-head {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--space-5);
+  align-items: start;
+  margin-block-end: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.section-head__label {
+  grid-column: 1 / span 3;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-block-start: 0.6rem;
+}
+
+.section-head__body {
+  grid-column: 4 / span 8;
+}
+
+.section-head__body h2 {
+  font-size: var(--text-h2);
+  font-variation-settings: var(--variation-display-tight);
+  max-width: 24ch;
+}
+
+.section-head__body p {
+  margin-block-start: var(--space-4);
+  color: var(--ink-soft);
+  max-width: var(--measure);
+}
+
+.section--ink .section-head__body p {
+  color: var(--on-ink-soft);
+}
+
+/* A ruled row used by indexes, capability ledgers and meta tables. */
+.rows {
+  border-top: var(--hairline);
+}
+
+/* --- Masthead ---------------------------------------------------------- */
+
+.masthead {
+  position: relative;
+}
+
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-header);
+  background: var(--paper);
+  border-block-end: var(--hairline);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  min-block-size: var(--header-h);
+}
+
+/* --- Hero ---------------------------------------------------------------
+   Type-led: the headline owns the full measure, the argument sits under it
+   in a narrower column, and the live instrument gets its own band below.
+   ---------------------------------------------------------------------- */
+
+.hero {
+  position: relative;
+  padding-block: clamp(2.25rem, 4.5vw, 3.75rem) clamp(2.75rem, 5.5vw, 4.5rem);
+  overflow: clip;
+}
+
+/* Faint drafting grid, masked out before it reaches the text. */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(to right, var(--rule) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+  background-size: clamp(56px, 8vw, 112px) clamp(56px, 8vw, 112px);
+  opacity: 0.45;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 78%);
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+}
+
+.hero__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding-block-end: var(--space-4);
+  border-block-end: var(--hairline);
+}
+
+.hero__title {
+  font-size: var(--text-display);
+  font-variation-settings: var(--variation-display);
+  letter-spacing: var(--tracking-display);
+  line-height: 0.94;
+  max-inline-size: 22ch;
+}
+
+.hero__title em {
+  font-variation-settings: var(--variation-italic);
+}
+
+.hero__title .full-stop {
+  color: var(--vermilion);
+}
+
+.hero__base {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--space-6);
+  align-items: end;
+}
+
+.hero__support {
+  grid-column: 1 / span 6;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.hero__side {
+  grid-column: 8 / span 5;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-inline-start: var(--space-4);
+  border-inline-start: var(--hairline);
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+  line-height: 1.6;
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.hero__footnote {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-5) var(--gutter);
+  padding-block-start: var(--space-5);
+  border-block-start: var(--hairline);
+}
+
+.hero__footnote > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.hero__footnote p:not(.mono) {
+  font-size: var(--text-small);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-inline-size: 32ch;
+}
+
+/* --- Instrument band ---------------------------------------------------- */
+
+.instrument-band {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--space-6);
+  align-items: start;
+}
+
+.instrument-band__copy {
+  grid-column: 1 / span 4;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.instrument-band__copy p {
+  color: var(--ink-soft);
+  font-size: var(--text-small);
+  line-height: 1.65;
+  max-inline-size: 34ch;
+}
+
+.instrument-band__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.instrument-band__list li {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.instrument-band__list li::before {
+  content: '—';
+  color: var(--vermilion);
+}
+
+.instrument-band__stage {
+  grid-column: 5 / span 8;
+  min-inline-size: 0;
+}
+
+/* On this band the instrument reads as a wide scope rather than a card. */
+.instrument--wide .instrument__stage {
+  aspect-ratio: 21 / 9;
+}
+
+.instrument--wide .instrument__controls {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: end;
+}
+
+.instrument--wide .instrument__controls > p {
+  grid-column: 1 / -1;
+}
+
+/* --- Two-column editorial split/* --- Two-column editorial split --------------------------------------- */
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--space-6);
+}
+
+.split__aside {
+  grid-column: 1 / span 3;
+}
+
+.split__main {
+  grid-column: 4 / span 6;
+}
+
+.split__tail {
+  grid-column: 10 / span 3;
+}
+
+/* --- Footer ----------------------------------------------------------- */
+
+.site-footer {
+  background: var(--surface-ink);
+  color: var(--on-ink);
+  padding-block: clamp(3.5rem, 7vw, 6rem) var(--space-6);
+}
+
+.site-footer a {
+  color: inherit;
+  text-decoration-color: var(--rule-ink-strong);
+}
+
+.site-footer a:hover {
+  color: #f2c9a8;
+  text-decoration-color: currentColor;
+}
+
+.footer__top {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  row-gap: var(--space-7);
+  padding-block-end: var(--space-8);
+}
+
+.footer__call {
+  grid-column: 1 / span 7;
+}
+
+.footer__call h2 {
+  font-size: clamp(2.1rem, 4.6vw, 3.9rem);
+  font-variation-settings: var(--variation-display);
+  max-width: 18ch;
+}
+
+.footer__call h2 em {
+  font-variation-settings: var(--variation-italic);
+}
+
+.footer__nav {
+  grid-column: 9 / span 4;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.footer__col h3 {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
+  color: var(--on-ink-mute);
+  margin-block-end: var(--space-4);
+}
+
+.footer__col ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--text-small);
+}
+
+.footer__base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding-block-start: var(--space-5);
+  border-block-start: var(--hairline-ink);
+}
+
+.footer__wordmark {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-variation-settings: var(--variation-display);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.footer__colophon {
+  max-inline-size: 46ch;
+  color: var(--on-ink-mute);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.footer__colophon strong {
+  color: var(--on-ink-soft);
+  font-weight: 500;
+}
+
+/* --- Responsive -------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .section-head__label {
+    grid-column: 1 / span 12;
+    padding-block-start: 0;
+  }
+
+  .section-head__body {
+    grid-column: 1 / span 12;
+  }
+
+  .hero__support,
+  .hero__side {
+    grid-column: 1 / span 12;
+  }
+
+  .hero__side {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+    padding-block-start: var(--space-4);
+    border-block-start: var(--hairline);
+  }
+
+  .hero__footnote {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .instrument-band__copy,
+  .instrument-band__stage {
+    grid-column: 1 / span 12;
+  }
+
+  .instrument--wide .instrument__controls {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .split__aside {
+    grid-column: 1 / span 12;
+  }
+
+  .split__main {
+    grid-column: 1 / span 12;
+  }
+
+  .split__tail {
+    grid-column: 1 / span 12;
+  }
+
+  .footer__call {
+    grid-column: 1 / span 12;
+  }
+
+  .footer__nav {
+    grid-column: 1 / span 12;
+  }
+}
+
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .hero__footnote {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .instrument--wide .instrument__stage {
+    aspect-ratio: 4 / 3;
+  }
+
+  .footer__nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+}
+
+/* The header CTA is the first thing to go when space is tight; the Index
+   button still exposes every destination. */
+@media (max-width: 599px) {
+  .site-header__tools .btn {
+    display: none;
+  }
+}
+
+/* --- Footer additions ------------------------------------------------- */
+
+.footer__lede {
+  margin-block: var(--space-4) var(--space-6);
+  max-inline-size: 40ch;
+  color: var(--on-ink-soft);
+  font-size: var(--text-small);
+  line-height: 1.65;
+}
+
+.footer__lede em {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--on-ink);
+}
+
+.footer__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: right;
+  color: var(--on-ink-mute);
+}
+
+.footer__meta a {
+  color: var(--on-ink);
+}
+
+@media (max-width: 767px) {
+  .footer__meta {
+    text-align: left;
+  }
+}

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- @include partials/js-flag.html -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact — Qintara</title>
+    <meta
+      name="description"
+      content="Contact Qintara about interface, editorial or design-system work. The enquiry form composes an email in your own client — nothing is sent to a server."
+    />
+    <meta name="theme-color" content="#f2ece1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="{{url}}/contact/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Qintara" />
+    <meta property="og:title" content="Contact — Qintara" />
+    <meta property="og:description" content="Bring us the part that won't sit still." />
+    <meta property="og:image" content="{{url}}/og-cover.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href="/src/assets/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- @include partials/site-header.html -->
+    <!-- @include partials/site-menu.html -->
+
+    <main id="main">
+      <div class="shell">
+        <div class="contact">
+          <div class="contact__lead">
+            <p class="eyebrow">Contact</p>
+            <h1 class="contact__title" data-reveal>Bring us the part that <em>won't sit still</em>.</h1>
+            <p class="lead" data-reveal style="--reveal-delay: 100">
+              The screen that never quite explains itself. The archive nobody can
+              navigate. The design system that only works for the person who wrote it.
+            </p>
+
+            <div class="contact__details" data-reveal style="--reveal-delay: 160">
+              <div>
+                <p class="mono" style="color: var(--ink-mute)">Email</p>
+                <p style="margin-block-start: var(--space-2)">
+                  <a class="contact__email" href="mailto:{{email}}">{{email}}</a>
+                </p>
+                <p style="margin-block-start: var(--space-3); display: flex; gap: var(--space-4); flex-wrap: wrap; align-items: center;">
+                  <button
+                    class="btn btn--ghost"
+                    type="button"
+                    data-copy="{{email}}"
+                    data-copy-label="Copy address"
+                    data-copy-status="#copy-status"
+                  >
+                    Copy address
+                  </button>
+                  <span id="copy-status" class="mono" role="status" aria-live="polite"></span>
+                </p>
+              </div>
+
+              <div>
+                <p class="mono" style="color: var(--ink-mute)">What happens next</p>
+                <p style="margin-block-start: var(--space-2)">
+                  You get a reply from a person, with either a proposal or a clear "not
+                  our kind of problem". We do not run a sales sequence.
+                </p>
+              </div>
+
+              <div class="note">
+                <strong>Demonstration build.</strong> This address uses the reserved
+                <span class="mono-plain">.example</span> domain, so it is not a live
+                inbox. Replace it in <span class="mono-plain">content/site.json</span>
+                before using this site for real.
+              </div>
+            </div>
+          </div>
+
+          <div class="contact__form-wrap">
+            <form
+              class="form"
+              data-contact-form
+              data-mailto="{{email}}"
+              action="mailto:{{email}}"
+              method="post"
+              enctype="text/plain"
+              novalidate
+            >
+              <div>
+                <p class="eyebrow">Enquiry</p>
+                <p style="margin-block-start: var(--space-3); color: var(--ink-soft); font-size: var(--text-small)">
+                  This form has no server. On submit it opens your own email client with
+                  the message prepared — nothing is stored or sent by this site.
+                </p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="name">Name</label>
+                <input type="text" id="name" name="name" autocomplete="name" required aria-describedby="name-error" />
+                <span class="field__error" id="name-error" data-error-for="name"></span>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="email">Email</label>
+                <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-error" />
+                <span class="field__error" id="email-error" data-error-for="email"></span>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="scope">
+                  What is it?
+                  <span class="field__hint">Optional</span>
+                </label>
+                <select id="scope" name="scope">
+                  <option value="">Choose a starting point</option>
+                  <option value="Interface design">Interface design</option>
+                  <option value="Editorial or archive">Editorial or archive</option>
+                  <option value="Design system">Design system</option>
+                  <option value="Creative front-end">Creative front-end</option>
+                  <option value="Something else">Something else</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="message">
+                  The situation
+                  <span class="field__hint">At least 20 characters</span>
+                </label>
+                <textarea id="message" name="message" required aria-describedby="message-error"></textarea>
+                <span class="field__error" id="message-error" data-error-for="message"></span>
+              </div>
+
+              <div class="form__foot">
+                <button class="btn" type="submit">
+                  Compose email <span class="btn__arrow" aria-hidden="true">→</span>
+                </button>
+                <p class="form__status" data-form-status role="status" aria-live="polite"></p>
+              </div>
+
+              <noscript>
+                <p class="note">
+                  JavaScript is off, so the form will hand this message to your email
+                  client directly. You can also write to
+                  <a href="mailto:{{email}}">{{email}}</a>.
+                </p>
+              </noscript>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- @include partials/site-footer.html -->
+    <!-- @include partials/work-preview.html -->
+  </body>
+</html>

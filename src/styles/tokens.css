@@ -1,0 +1,127 @@
+/* ==========================================================================
+   QINTARA — DESIGN TOKENS
+   "Instrument & Archive": warm paper, near-black ink, one burnt vermilion.
+   All decisions are documented in docs/design-system.md
+   ========================================================================== */
+
+:root {
+  /* --- Colour roles ------------------------------------------------------ */
+  --paper: #f2ece1;
+  --paper-deep: #e8e0d1;
+  --paper-shade: #ddd4c2;
+  --ink: #17140f;
+  --ink-soft: #5b5446;
+  --ink-mute: #6b6455;
+  --rule: rgba(23, 20, 15, 0.16);
+  --rule-strong: rgba(23, 20, 15, 0.42);
+  --vermilion: #b83a18;
+  --vermilion-deep: #8f2c11;
+  --ultramarine: #2a3266;
+
+  /* Ink surfaces (dark bands, case-study heroes, footer) */
+  --surface-ink: #14110c;
+  --surface-ink-2: #1d1913;
+  --on-ink: #f2ece1;
+  --on-ink-soft: #cfc6b5;
+  --on-ink-mute: #9d9483;
+  --rule-ink: rgba(242, 236, 225, 0.18);
+  --rule-ink-strong: rgba(242, 236, 225, 0.44);
+
+  /* --- Type ------------------------------------------------------------- */
+  --font-display: 'Fraunces Variable', 'Iowan Old Style', 'Palatino Linotype',
+    'Times New Roman', serif;
+  --font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --text-display: clamp(2.6rem, 6.6vw, 7rem);
+  --text-h1: clamp(2.5rem, 6vw, 5rem);
+  --text-h2: clamp(1.85rem, 3.4vw, 2.9rem);
+  --text-h3: clamp(1.2rem, 1.65vw, 1.5rem);
+  --text-lead: clamp(1.05rem, 1.35vw, 1.28rem);
+  --text-body: 1.0625rem;
+  --text-small: 0.875rem;
+  --text-mono: 0.75rem;
+
+  --tracking-display: -0.028em;
+  --tracking-tight: -0.015em;
+  --tracking-mono: 0.14em;
+  --leading-display: 0.92;
+  --leading-tight: 1.1;
+  --leading-body: 1.62;
+
+  /* Fraunces is a variable font: optical size, weight, softness and wonk */
+  --variation-display: 'opsz' 144, 'SOFT' 24, 'WONK' 1, 'wght' 380;
+  --variation-display-tight: 'opsz' 144, 'SOFT' 12, 'WONK' 0, 'wght' 420;
+  --variation-italic: 'opsz' 120, 'SOFT' 40, 'WONK' 1, 'wght' 340;
+
+  /* --- Space (8px rhythm) ---------------------------------------------- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+  --space-11: 12rem;
+
+  --section-pad: clamp(4.5rem, 10vw, 9rem);
+  --gutter: clamp(1rem, 2.6vw, 2.5rem);
+  --page-pad: clamp(1.15rem, 4.6vw, 4.5rem);
+  --measure: 62ch;
+  --measure-narrow: 46ch;
+
+  /* --- Layout ----------------------------------------------------------- */
+  --shell-max: 1560px;
+  --rail: clamp(0px, 12vw, 190px);
+  --header-h: 4.25rem;
+
+  /* --- Borders, radius, shadow ----------------------------------------- */
+  --hairline: 1px solid var(--rule);
+  --hairline-strong: 1px solid var(--rule-strong);
+  --hairline-ink: 1px solid var(--rule-ink);
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-pill: 999px;
+  /* No ambient shadows: separation comes from rules and space. */
+  --lift: 0 18px 40px -28px rgba(23, 20, 15, 0.5);
+
+  /* --- Motion ----------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 160ms;
+  --dur-2: 320ms;
+  --dur-3: 620ms;
+  --dur-4: 1100ms;
+
+  --z-header: 50;
+  --z-menu: 60;
+  --z-preview: 40;
+  --z-skip: 100;
+
+  /* Set per-element in markup; declared here so every reference resolves. */
+  --reveal-delay: 0;
+  --i: 0;
+  --plate-ratio: 3 / 2;
+
+  color-scheme: light;
+}
+
+/* Breakpoints used across the stylesheet
+   sm  480px   large phone
+   md  768px   tablet
+   lg  1024px  laptop
+   xl  1280px  desktop
+   2xl 1600px  wide desktop */
+
+@media (prefers-contrast: more) {
+  :root {
+    --ink-soft: #403a2e;
+    --ink-mute: #4a4436;
+    --rule: rgba(23, 20, 15, 0.32);
+    --on-ink-mute: #d3caba;
+    --rule-ink: rgba(242, 236, 225, 0.34);
+  }
+}

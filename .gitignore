@@ -1,4 +1,7 @@
-// .gitignore
 node_modules/
 dist/
 .vite/
+.screenshots/
+audit-report.json
+.DS_Store
+*.log

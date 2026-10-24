@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- @include partials/js-flag.html -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Longhand — an editorial archive — Qintara</title>
+    <meta
+      name="description"
+      content="Case study: Longhand, an editorial archive where margin notes become navigation and reading never depends on JavaScript. A written demonstration by Qintara."
+    />
+    <meta name="theme-color" content="#f2ece1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="{{url}}/work/longhand/" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Qintara" />
+    <meta property="og:title" content="Longhand — an editorial archive" />
+    <meta property="og:description" content="Margin notes as navigation, a locked measure, and an archive that reads without JavaScript." />
+    <meta property="og:image" content="{{url}}/og/longhand.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href="/src/assets/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- @include partials/site-header.html -->
+    <!-- @include partials/site-menu.html -->
+
+    <main id="main">
+      <article>
+        <header class="case-hero">
+          <div class="shell">
+            <div class="case-hero__inner">
+              <div class="case-hero__copy">
+                <p class="eyebrow">Case 02 — Editorial platform</p>
+                <h1 class="case-hero__title" data-reveal>Longhand</h1>
+                <p class="lead" data-reveal style="--reveal-delay: 100">
+                  A twelve-year archive of long-form essays, rebuilt so that the
+                  footnotes — the part readers came for — became the navigation.
+                </p>
+                <p data-reveal style="--reveal-delay: 160">
+                  <span class="demo-marker">Demonstration case study — fictional client</span>
+                </p>
+              </div>
+
+              <div class="case-hero__facts">
+                <dl class="facts">
+                  <div class="facts__row"><dt>Client</dt><dd>Fictional brief, written for this build</dd></div>
+                  <div class="facts__row"><dt>Sector</dt><dd>Independent publishing</dd></div>
+                  <div class="facts__row"><dt>Scope</dt><dd>Reading interface, archive IA, print styles</dd></div>
+                  <div class="facts__row"><dt>Team</dt><dd>One designer, one engineer, one editor</dd></div>
+                  <div class="facts__row"><dt>Modelled window</dt><dd>9 weeks</dd></div>
+                </dl>
+              </div>
+            </div>
+
+            <figure class="case-hero__plate case-figure" data-reveal>
+              <div class="plate__frame" style="--plate-ratio: 21 / 9">
+                <img
+                  class="plate__img"
+                  src="/src/assets/plates/longhand-1264.webp"
+                  alt="A stack of deckled paper sheets on graphite, a vermilion rule drawn across the top sheet beside a small ultramarine ink stain."
+                  width="1264"
+                  height="848"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              </div>
+              <figcaption class="mono" style="color: var(--ink-mute)">
+                Plate 02 — Longhand paper study. Photograph produced for this build.
+              </figcaption>
+            </figure>
+          </div>
+        </header>
+
+        <div class="shell">
+          <section class="module" aria-labelledby="lh-context">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">01</span>
+              <h2 class="mono" id="lh-context">Context</h2>
+            </div>
+            <div class="module__body">
+              <p>
+                The archive held roughly 900 essays, many with dozens of footnotes and
+                source notes. On the old site, footnotes were links that jumped to a
+                list at the end — a pattern that works in print because your thumb
+                holds the page. On a phone it meant abandoning the sentence.
+              </p>
+              <p>
+                Analytics told a familiar story: strong entry traffic, short sessions,
+                and almost no movement between essays. The archive looked shallow to
+                readers who had actually come for depth.
+              </p>
+            </div>
+            <div class="module__aside">
+              <p class="mono">Constraints</p>
+              <p>Legacy markup. Poor mobile networks. Reading must survive without scripts.</p>
+            </div>
+          </section>
+
+          <section class="module" aria-labelledby="lh-constraint">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">02</span>
+              <h2 class="mono" id="lh-constraint">Constraint</h2>
+            </div>
+            <div class="module__body">
+              <h3>The real limits</h3>
+              <ul>
+                <li><strong>Content debt.</strong> Twelve years of hand-written HTML with inconsistent heading levels.</li>
+                <li><strong>Bandwidth.</strong> A meaningful share of readers arrived on connections where a 400&nbsp;KB page took seconds.</li>
+                <li><strong>Editorial trust.</strong> The editor would not accept a reading experience that could break when scripts failed.</li>
+                <li><strong>Print.</strong> Academic readers still printed essays; the print stylesheet had to carry citations.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="module" aria-labelledby="lh-decisions">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">03</span>
+              <h2 class="mono" id="lh-decisions">Decisions</h2>
+            </div>
+            <div class="module__body">
+              <div class="decisions">
+                <div class="decision">
+                  <p class="decision__question">Margin notes that become asides.</p>
+                  <p class="decision__answer">
+                    On wide screens a note sits in the margin, aligned to its sentence;
+                    on narrow screens the same markup renders as a styled aside directly
+                    after the paragraph. <strong>Trade-off:</strong> no sticky
+                    side-panel navigation inside essays, which some readers expected.
+                  </p>
+                </div>
+                <div class="decision">
+                  <p class="decision__question">A locked measure, a fluid scale.</p>
+                  <p class="decision__answer">
+                    The text column stays between 62 and 68 characters regardless of
+                    viewport, while headings scale with <code>clamp()</code>.
+                    <strong>Trade-off:</strong> fewer dramatic full-bleed moments; a
+                    calmer page that keeps a consistent line length at every size.
+                  </p>
+                </div>
+                <div class="decision">
+                  <p class="decision__question">Static HTML over a reading app.</p>
+                  <p class="decision__answer">
+                    Pre-rendered pages, one small script for progress and search, no
+                    client-side routing. <strong>Trade-off:</strong> no page transitions;
+                    in exchange, first paint arrives before the script does and the
+                    archive can be mirrored by libraries.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="module" aria-labelledby="lh-craft">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">04</span>
+              <h2 class="mono" id="lh-craft">Craft</h2>
+            </div>
+            <div class="module__body">
+              <h3>Typography</h3>
+              <p>
+                A serif for reading, a narrow sans for navigation, and a monospace used
+                only for citation numbers and dates. Three roles, no exceptions — the
+                archive has enough variation in its content without the interface
+                adding more.
+              </p>
+              <h3>Details that carry the experience</h3>
+              <ul>
+                <li>Footnote markers use tabular figures so they do not shift the baseline.</li>
+                <li>An auto-generated contents list on long essays, hidden from screen readers when empty.</li>
+                <li>Link underlines that thicken on hover instead of changing colour, preserving a single accent.</li>
+                <li>Print CSS that expands citation URLs and removes the ornament layer.</li>
+                <li>Reading progress expressed as a one-pixel rule, not a floating pill.</li>
+              </ul>
+              <p>
+                Nothing in the reading experience requires JavaScript: the notes, the
+                contents list and the archive pagination are all in the served HTML.
+              </p>
+            </div>
+            <div class="module__aside">
+              <p class="mono">Performance budget</p>
+              <p>Under 200 KB per essay on first load, fonts included.</p>
+            </div>
+          </section>
+        </div>
+
+        <section class="section section--ink" aria-labelledby="lh-signals">
+          <div class="shell">
+            <div class="section-head">
+              <div class="section-head__label">
+                <p class="eyebrow">05 — Signals</p>
+              </div>
+              <div class="section-head__body">
+                <h2 id="lh-signals">What we would measure.</h2>
+                <p>
+                  No results are claimed for this written brief. These are the
+                  observations that would tell us whether the reading experience had
+                  actually changed.
+                </p>
+              </div>
+            </div>
+
+            <ul class="signals" data-reveal>
+              <li class="signal">
+                <span class="signal__num mono">S1</span>
+                <div>
+                  <h3>Notes opened per essay</h3>
+                  <p>The behaviour the design exists to encourage, counted before and after.</p>
+                </div>
+              </li>
+              <li class="signal">
+                <span class="signal__num mono">S2</span>
+                <div>
+                  <h3>Essays read after the first</h3>
+                  <p>Depth of archive use, rather than raw session length.</p>
+                </div>
+              </li>
+              <li class="signal">
+                <span class="signal__num mono">S3</span>
+                <div>
+                  <h3>Time to first paragraph</h3>
+                  <p>Measured on a throttled connection, on the oldest and heaviest essays.</p>
+                </div>
+              </li>
+              <li class="signal">
+                <span class="signal__num mono">S4</span>
+                <div>
+                  <h3>Print events and citation copies</h3>
+                  <p>Small numbers, but they tell us the scholarly readers stayed.</p>
+                </div>
+              </li>
+            </ul>
+
+            <figure class="pullquote" data-reveal>
+              <blockquote>
+                A footnote is not an interruption. It is the author leaning over to
+                tell you something they could not fit in the sentence.
+              </blockquote>
+              <figcaption class="mono">From the editorial brief</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <div class="shell">
+          <nav class="next-project" aria-label="Next case study">
+            <a class="next-project__link" href="/work/signal/">
+              <span class="next-project__label mono">Next case — 03</span>
+              <span class="next-project__name">Signal</span>
+              <span class="next-project__arrow" aria-hidden="true">→</span>
+            </a>
+          </nav>
+        </div>
+      </article>
+    </main>
+
+    <!-- @include partials/site-footer.html -->
+    <!-- @include partials/work-preview.html -->
+  </body>
+</html>

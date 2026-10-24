@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- @include partials/js-flag.html -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signal — an observability console — Qintara</title>
+    <meta
+      name="description"
+      content="Case study: Signal, an on-call console that shows distribution instead of averages and keeps colour for the one thing that needs attention. A written demonstration by Qintara."
+    />
+    <meta name="theme-color" content="#f2ece1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="{{url}}/work/signal/" />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Qintara" />
+    <meta property="og:title" content="Signal — an observability console" />
+    <meta property="og:description" content="Distribution over averages, one accent colour, and a URL that holds the state." />
+    <meta property="og:image" content="{{url}}/og/signal.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href="/src/assets/fonts/fraunces-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.js"></script>
+  </head>
+
+  <body id="top">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- @include partials/site-header.html -->
+    <!-- @include partials/site-menu.html -->
+
+    <main id="main">
+      <article>
+        <header class="case-hero">
+          <div class="shell">
+            <div class="case-hero__inner">
+              <div class="case-hero__copy">
+                <p class="eyebrow">Case 03 — Data interface</p>
+                <h1 class="case-hero__title" data-reveal>Signal</h1>
+                <p class="lead" data-reveal style="--reveal-delay: 100">
+                  An on-call console for a platform team. The old dashboard was not
+                  missing data — it was hiding the shape of it behind averages.
+                </p>
+                <p data-reveal style="--reveal-delay: 160">
+                  <span class="demo-marker">Demonstration case study — fictional client</span>
+                </p>
+              </div>
+
+              <div class="case-hero__facts">
+                <dl class="facts">
+                  <div class="facts__row"><dt>Client</dt><dd>Fictional brief, written for this build</dd></div>
+                  <div class="facts__row"><dt>Sector</dt><dd>Developer tooling, observability</dd></div>
+                  <div class="facts__row"><dt>Scope</dt><dd>Information design, chart system, front-end</dd></div>
+                  <div class="facts__row"><dt>Team</dt><dd>One designer, two engineers</dd></div>
+                  <div class="facts__row"><dt>Modelled window</dt><dd>14 weeks</dd></div>
+                </dl>
+              </div>
+            </div>
+
+            <figure class="case-hero__plate case-figure" data-reveal>
+              <div class="plate__frame" style="--plate-ratio: 21 / 9">
+                <img
+                  class="plate__img"
+                  src="/src/assets/plates/signal-1264.webp"
+                  alt="A tall dark display panel glowing with a single vermilion waveform, standing in an empty bone-white gallery room."
+                  width="1264"
+                  height="848"
+                  fetchpriority="high"
+                  decoding="async"
+                />
+              </div>
+              <figcaption class="mono" style="color: var(--ink-mute)">
+                Plate 03 — Signal display study. Photograph produced for this build.
+              </figcaption>
+            </figure>
+          </div>
+        </header>
+
+        <div class="shell">
+          <section class="module" aria-labelledby="sg-context">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">01</span>
+              <h2 class="mono" id="sg-context">Context</h2>
+            </div>
+            <div class="module__body">
+              <p>
+                Engineers were responding to roughly forty alerts a week, most of them
+                noise. The dashboard drew every metric in the same weight and the same
+                palette, so the eye had no way in. Worse, it plotted averages: a
+                service where 4&nbsp;% of requests took two seconds looked identical to
+                one where everything was slow.
+              </p>
+              <p>
+                The team's own description was the brief. <strong>"By the time we open
+                the dashboard, we already know it is broken. We need to know what shape
+                the breakage has."</strong>
+              </p>
+            </div>
+            <div class="module__aside">
+              <p class="mono">Context</p>
+              <p>Used at 3 a.m., on a laptop, by someone who has not slept.</p>
+            </div>
+          </section>
+
+          <section class="module" aria-labelledby="sg-constraint">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">02</span>
+              <h2 class="mono" id="sg-constraint">Constraint</h2>
+            </div>
+            <div class="module__body">
+              <h3>The real limits</h3>
+              <ul>
+                <li><strong>Density.</strong> Nineteen metrics had to remain visible at once; nothing could be hidden behind a tab.</li>
+                <li><strong>Design system.</strong> Tokens and component APIs were fixed; only the page composition could change.</li>
+                <li><strong>Live data.</strong> Panels updated every fifteen seconds and could not shift the layout.</li>
+                <li><strong>Colour.</strong> A meaningful share of the team reported some colour vision deficiency.</li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="module" aria-labelledby="sg-decisions">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">03</span>
+              <h2 class="mono" id="sg-decisions">Decisions</h2>
+            </div>
+            <div class="module__body">
+              <div class="decisions">
+                <div class="decision">
+                  <p class="decision__question">Show the band, keep the median.</p>
+                  <p class="decision__answer">
+                    Every chart shows a distribution band with a solid median line, so
+                    a bimodal latency chart reads as two populations rather than a
+                    comfortable average. <strong>Trade-off:</strong> more ink per chart;
+                    the page had to lose two secondary panels to pay for it.
+                  </p>
+                </div>
+                <div class="decision">
+                  <p class="decision__question">One accent, earned by state.</p>
+                  <p class="decision__answer">
+                    Series are drawn in ink and grey; the single vermilion is reserved
+                    for "outside expected range". <strong>Trade-off:</strong> series are
+                    distinguished by position and label rather than hue, which is slower
+                    on first glance but survives colour-vision deficiency.
+                  </p>
+                </div>
+                <div class="decision">
+                  <p class="decision__question">The URL is the state.</p>
+                  <p class="decision__answer">
+                    Time range, service and focus are encoded in the address, so an
+                    engineer can paste a view into an incident channel. <strong>Trade-off:</strong>
+                    no transient UI state; anything worth keeping had to be made
+                    addressable, which required negotiation with the team.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="module" aria-labelledby="sg-craft">
+            <div class="module__label">
+              <span class="mono" style="color: var(--vermilion)">04</span>
+              <h2 class="mono" id="sg-craft">Craft</h2>
+            </div>
+            <div class="module__body">
+              <h3>Rendering rules</h3>
+              <ul>
+                <li>Charts render to canvas for volume, but every chart has a data table alternative in the DOM.</li>
+                <li>Panel height is reserved before data arrives, so a 15-second refresh never moves the page.</li>
+                <li>Numbers use tabular figures and fixed decimal places; a value changing width is a distraction at 3 a.m.</li>
+                <li>No animation on data refresh — only on state change, and never longer than 200&nbsp;ms.</li>
+              </ul>
+              <h3>Reading order</h3>
+              <p>
+                The page opens on one sentence generated from the data: which service,
+                which signal, how far outside its band. Everything below is evidence
+                for that sentence. This was the largest structural change and the one
+                the team resisted most, because the old page opened with a wall of
+                charts that felt authoritative.
+              </p>
+            </div>
+            <div class="module__aside">
+              <p class="mono">Accessibility</p>
+              <p>Every chart exposes a summary and a table; colour is never the only encoding.</p>
+            </div>
+          </section>
+        </div>
+
+        <section class="section section--ink" aria-labelledby="sg-signals">
+          <div class="shell">
+            <div class="section-head">
+              <div class="section-head__label">
+                <p class="eyebrow">05 — Signals</p>
+              </div>
+              <div class="section-head__body">
+                <h2 id="sg-signals">What we would measure.</h2>
+                <p>
+                  This brief is written, not delivered, so no outcomes are claimed.
+                  These signals reflect what actually matters to an on-call team.
+                </p>
+              </div>
+            </div>
+
+            <ul class="signals" data-reveal>
+              <li class="signal">
+                <span class="signal__num mono">S1</span>
+                <div>
+                  <h3>Alert-to-cause time</h3>
+                  <p>From page to the sentence that names the likely cause.</p>
+                </div>
+              </li>
+              <li class="signal">
+                <span class="signal__num mono">S2</span>
+                <div>
+                  <h3>Slow-burn detections</h3>
+                  <p>Incidents caught by a person before a user reported them.</p>
+                </div>
+              </li>
+              <li class="signal">
+                <span class="signal__num mono">S3</span>
+                <div>
+                  <h3>Views pasted into incidents</h3>
+                  <p>Whether addressable state is actually used in the middle of an incident.</p>
+                </div>
+              </li>
+              <li class="signal">
+                <span class="signal__num mono">S4</span>
+                <div>
+                  <h3>Alerts muted per week</h3>
+                  <p>A falling number means the console earned its colour.</p>
+                </div>
+              </li>
+            </ul>
+
+            <figure class="pullquote" data-reveal>
+              <blockquote>
+                An average is a polite fiction. Show the two populations and let the
+                engineer decide which one is on fire.
+              </blockquote>
+              <figcaption class="mono">From the design critique, week three</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <div class="shell">
+          <nav class="next-project" aria-label="Next case study">
+            <a class="next-project__link" href="/work/edge/">
+              <span class="next-project__label mono">Next case — 04</span>
+              <span class="next-project__name">Edge</span>
+              <span class="next-project__arrow" aria-hidden="true">→</span>
+            </a>
+          </nav>
+        </div>
+      </article>
+    </main>
+
+    <!-- @include partials/site-footer.html -->
+    <!-- @include partials/work-preview.html -->
+  </body>
+</html>
